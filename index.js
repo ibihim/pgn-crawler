@@ -1,10 +1,20 @@
 "use strict";
 
-const url = require("./lib/url").url;
+const baseUrl = require("./lib/url").baseUrl;
 const Browser = require("zombie");
+const _ = require("lodash");
 
+const startTime = Date.now();
 const playerId = "82276";
 const getUrl = urlGenerator(playerId);
+
+const config = {
+    runScripts: false,
+    loadCSS: false,
+    silent: true
+};
+
+let allPgnLinks = [];
 
 function chessGameLinkFilter(link) {
     return link.indexOf("chessgame?gid=") !== -1;
@@ -23,15 +33,57 @@ function urlGenerator(playerId) {
     
     return function () {
         page += 1;
-        //const returnUrl = `${url}/perl/chess.pl?page=${page}&pid=${playerId}`;
-        const returnUrl = `${url}`;
-        console.log(`${page}:\t${returnUrl}`);
+        const returnUrl = `${baseUrl}/perl/chess.pl?page=${page}&pid=${playerId}`;
+
+        console.log(`page: ${page} \t url: ${returnUrl}`);
+
+        return returnUrl;
     };
 }
 
-Browser.visit(getUrl(), function (err, browser) {
-    const allLinks     = browser.queryAll("a").map(getHref);
-    const allGameLinks = allLinks.filter(chessGameLinkFilter);
+function pushLinkToAllPgnLinks(link) {
+    allPgnLinks.push(link);
+}
 
-    console.log(allGameLinks);
-});
+function isFilledArray(arr) {
+    return Array.isArray(arr) && arr.length > 0;
+}
+
+function printRuntime() {
+    const runTime = (Date.now() - startTime)/1000;
+    console.log(`runtime: ${runTime}s`);
+}
+
+function finalizePgnArray() {
+    const finalPgnLink = allPgnLinks.sort();
+    const checkValue = _.union([], finalPgnLink);
+    console.log(`array length ${finalPgnLink.length}`);
+    console.log(`array length ${checkValue.length}`);
+
+    printRuntime();
+}
+
+function harvestNextPage() {
+    Browser.visit(getUrl(), config, function (err, browser) {
+
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        const allLinks     = browser.queryAll("a").map(getHref);
+        const allGameLinks = allLinks.filter(chessGameLinkFilter);
+
+        if (!isFilledArray(allGameLinks)) {
+            //console.log(browser.html());
+            console.log("No games found on that page. Crawl ends");
+            return finalizePgnArray();
+        }
+
+        const pgnLinks = allGameLinks.map(gameLinkToPgnLink);
+        pgnLinks.forEach(pushLinkToAllPgnLinks);
+
+        harvestNextPage();
+    });
+}
+harvestNextPage();
