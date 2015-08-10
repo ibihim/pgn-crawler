@@ -18,7 +18,7 @@ function getRuntime() {
 }
 
 function printRuntime(runTime) {
-    console.log(`links search had a runtime of ${runTime}s`);
+    console.log(`[INFO] links search had a runtime of ${runTime}s`);
 }
 
 pgn.getPgnsForPlayer(playerName, printPgns);
