@@ -2,7 +2,7 @@
 
 const pgn = require("./lib/pgn");
 
-const playerName = "Magnus Carlsen";
+const playerName = "Kurt Richter";
 const startTime = Date.now();
 
 function printPgns(pgns) {
