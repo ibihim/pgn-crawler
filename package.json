@@ -14,5 +14,8 @@
   "license": "ISC",
   "devDependencies": {
     "zombie": "^4.0.13"
+  },
+  "dependencies": {
+    "winston": "^1.0.1"
   }
 }
