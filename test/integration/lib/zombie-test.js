@@ -1,5 +1,6 @@
 "use strict";
 
+const expect = require("chai").expect;
 const zombie = require("../../../lib/zombie");
 const baseUrl = "https://www.google.com";
 
