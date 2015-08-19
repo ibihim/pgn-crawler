@@ -1,6 +1,9 @@
 "use strict";
 
 const pgn = require("./lib/pgn");
+const winston = require("winston");
+
+winston.level = "info";
 
 const playerName = "Kurt Richter";
 const startTime = Date.now();
@@ -8,7 +11,7 @@ const startTime = Date.now();
 function printPgns(pgns) {
     const runTime = getRuntime();
 
-    console.log(pgns);
+    winston.log(pgns);
 
     printRuntime(runTime);
 }
@@ -18,7 +21,7 @@ function getRuntime() {
 }
 
 function printRuntime(runTime) {
-    console.log(`[INFO] links search had a runtime of ${runTime}s`);
+    winston.info(`links search had a runtime of ${runTime}s`);
 }
 
 pgn.getPgnsForPlayer(playerName, printPgns);
