@@ -1,5 +1,6 @@
 "use strict";
 
+const expect = require("chai").expect;
 const sanitize = require("../../../../lib/pgn/sanitize-pgn-data");
 
 const pgnString = '[Event "Hoogovens A Tournament"]\n' +
@@ -48,10 +49,14 @@ const pgnObj = {
            'Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0' 
 }                  
 
-const result = sanitize.convertPgnStringToPgnObj(pgnString);
-Object.keys(result).forEach(function (key) {
-    const resultValue = result[key];
-    const pgnObjValue = pgnObj[key];
+describe("sanitize pgn data", function () {
+    it("should parse pgn string to pgn object", function () {
+        const result = sanitize.convertPgnStringToPgnObj(pgnString);
+        Object.keys(result).forEach(function (key) {
+            const resultValue = result[key];
+            const pgnObjValue = pgnObj[key];
 
-    console.log(resultValue === pgnObjValue);
+            expect(resultValue).to.equal(pgnObjValue);
+        });
+    });
 });
