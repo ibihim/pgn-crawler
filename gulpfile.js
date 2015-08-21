@@ -6,9 +6,9 @@ const jshint = require("gulp-jshint");
 const stylish = require("jshint-stylish");
 
 gulp.task("test", function () {
-    const mochaConfig = { read: false, timeout: 20000 };
+    const mochaConfig = { read: false };
     return gulp.src(["test/**/*-test.js"], mochaConfig)
-               .pipe(mocha({ reporter: "spec" }));
+               .pipe(mocha({ reporter: "spec", timeout: 20000 }));
 });
 
 gulp.task("jshint", function() {

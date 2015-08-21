@@ -2,19 +2,7 @@
 
 const pgn = require("./lib/pgn");
 const winston = require("winston");
-
-winston.level = "info";
-
-const playerName = "Kurt Richter";
 const startTime = Date.now();
-
-function printPgns(pgns) {
-    const runTime = getRuntime();
-
-    winston.log(pgns);
-
-    printRuntime(runTime);
-}
 
 function getRuntime() {
     return (Date.now() - startTime)/1000;
@@ -24,8 +12,26 @@ function printRuntime(runTime) {
     winston.info(`links search had a runtime of ${runTime}s`);
 }
 
-pgn.getPgnsForPlayer(playerName, printPgns);
+exports.demo = function () {
+    const playerName = "Kurt Richter";
 
-//module.exports = function (playerName, callback) {
-//    pgn.getPgnsForPlayer(playerName, callback);    
-//}
+    winston.level = "info";
+
+    function printPgns(err, pgns) {
+        if (err) {
+            winston.error(err);
+        }
+
+        const runTime = getRuntime();
+
+        winston.log(pgns);
+
+        printRuntime(runTime);
+    }
+
+    pgn.getPgnsForPlayer(playerName, printPgns);
+};
+
+exports.getPgnsForPlayer = function (playerName, callback) {
+    pgn.getPgnsForPlayer(playerName, callback);    
+}
