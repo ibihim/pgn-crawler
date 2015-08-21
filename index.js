@@ -32,6 +32,4 @@ exports.demo = function () {
     pgn.getPgnsForPlayer(playerName, printPgns);
 };
 
-exports.getPgnsForPlayer = function (playerName, callback) {
-    pgn.getPgnsForPlayer(playerName, callback);    
-}
+exports.getPgnsForPlayer = pgn.getPgnsForPlayer;
