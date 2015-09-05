@@ -7,7 +7,7 @@ const stylish = require("jshint-stylish");
 
 gulp.task("test", function () {
     const mochaConfig = { read: false };
-    return gulp.src(["test/**/*links-test.js"], mochaConfig)
+    return gulp.src(["test/**/*xxx-id-test.js", "test/**/*links-test.js"], mochaConfig)
                .pipe(mocha({ reporter: "spec", timeout: 20000 }));
 });
 

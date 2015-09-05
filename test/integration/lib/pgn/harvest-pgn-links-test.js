@@ -10,19 +10,17 @@ const chessGameLink = "http://www.chessgames.com/perl/nph-chesspgn?text=1&gid=";
 
 describe("harvest pgn links", function () {
     it("should return an expected number of pgns for a given player", function (done) {
-
-        let links = [];
-        pgnLinkStream.on("readable", function () {
-            let chunk;
-
-            while ((chunk = pgnLinkStream.read()) !== null) {
-                links.push(chunk);
-                expect(chunk).to.contain(chessGameLink);
-            }            
+        pgnLinkStream.on("readable", function () {            
+            var read = pgnLinkStream.read();
+            console.log("readable");
+            if (read && read.toString) {
+                console.log(read.toString())
+            } else {
+                console.log("null");
+            }           
         });
 
         pgnLinkStream.on("end", function () {
-            expect(links).to.have.length(3);
             done();            
         })
     });
