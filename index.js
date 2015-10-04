@@ -33,3 +33,4 @@ exports.demo = function () {
 };
 
 exports.getPgnsForPlayer = pgn.getPgnsForPlayer;
+exports.stream = pgn.stream;

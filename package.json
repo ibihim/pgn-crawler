@@ -1,6 +1,6 @@
 {
   "name": "pgn-crawler",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "description": "Crawls pgns (chess files) for a given player.",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,6 @@
   "keywords": [
     "chess",
     "pgn",
-    "zombiejs",
     "es6"
   ],
   "author": "Krzysztof Ostrowski",
@@ -23,8 +22,12 @@
     "mocha": "^2.2.5"
   },
   "dependencies": {
-    "zombie": "^4.0.13",
+    "from2": "^2.1.0",
     "lodash": "^3.10.1",
+    "through2": "^2.0.0",
     "winston": "^1.0.1"
+  },
+  "engine": { 
+    "node" : ">=4.0.0" 
   }
 }

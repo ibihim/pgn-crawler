@@ -1,6 +1,9 @@
 # Logs
 logs
 *.log
+# Temporary Data
+tmp.*
+tmp
 
 # Runtime data
 pids
