@@ -1,6 +1,6 @@
 {
   "name": "pgn-crawler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Crawls pgns (chess files) for a given player.",
   "main": "index.js",
   "scripts": {
@@ -26,5 +26,8 @@
     "lodash": "^3.10.1",
     "through2": "^2.0.0",
     "winston": "^1.0.1"
+  },
+  "engine": { 
+    "node" : ">=4.0.0" 
   }
 }

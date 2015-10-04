@@ -8,9 +8,18 @@ $ npm install pgn-crawler
 
 ## Prerequisite
 
-This module needs io.js in order to run.
+This module needs nodejs 4.* in order to run.
+
+## Update Info
+* Droped Zombiejs, as it was way to slow to handle streams.
+* **Performance gain through stream are at least at 25%. Performance on Players with plenty of games like Magnus Carlsen have a performance gain of 38%.**
 
 ## Using pgn-crawler
+
+### stream(playerName, writableStream, callback)
+* `playerName {String}` - Expects a String that contains a chess player name. E.g. `Magnus Carlsen`
+* `writableStream {Object}` - an Object that belongs to a class which inherits from stream.Writable. The chunks of data are Strings. You should use JSON.parse(chunk) upon it to use it as an object. (Will be fixed sometime soon ;-) Through2 was buggy in pushing objects).
+* `callback {Function}` - Is executed on end event of the last streamed pgn game.
 
 ### getPgnsForPlayer(playerName, callback)
 * `playerName {String}` - Expects a String that contains a chess player name. E.g. `Magnus Carlsen`
@@ -44,6 +53,46 @@ A pgn object follows the pgn standard, except for the id. Which should be unique
 ```
 
 ### Example Usage:
+Example streams into terminal.
+
+```javascript
+const pgnCrawler = require("pgn-crawler");
+
+pgnCrawler.stream("Magnus Carlsen", process.stdout);
+```
+
+Example using a writable.
+
+```javascript
+const pgnCrawler = require("pgn-crawler");
+
+var pgns = [];
+
+function onEnd() {
+	console.log(pgns);
+}
+
+function createWritable() {
+    const ws = Writable();        
+
+    ws._write = function (chunk, enc, next) {
+        winston.debug(`received chunk: ${chunk}`);
+
+        if (typeof chunk !== "string") {
+            chunk = chunk.toString();
+        }
+                
+        const pgnObj = JSON.parse(chunk);
+        pgns.push(pgnObj);
+        next();
+    };
+
+    return ws;
+}
+
+pgnCrawler.stream("Magnus Carlsen", createWritable(), onEnd);
+```
+Callback behavior like in Version 1.0.
 
 ```javascript
 const pgnCrawler = require("pgn-crawler");
