@@ -5,9 +5,15 @@ const mocha = require("gulp-mocha");
 const jshint = require("gulp-jshint");
 const stylish = require("jshint-stylish");
 
+require("winston").level = "debug";
+
 gulp.task("test", function () {
     const mochaConfig = { read: false };
-    return gulp.src(["test/**/*-id-test.js", "test/**/*links-test.js"], mochaConfig)
+    return gulp.src([   
+                        "test/integration/**/index-test.js"                      
+                        //"test/integration/**/*-test.js",                                                            
+                        //"test/unit/**/*-test.js"
+                     ], mochaConfig)
                .pipe(mocha({ reporter: "spec", timeout: 20000 }));
 });
 
